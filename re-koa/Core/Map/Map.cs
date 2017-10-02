@@ -2,5 +2,7 @@
 
 namespace ReKoA.Core.Map
 {
-    class Map : List<INode> { }
+    public class Map : SortedDictionary<INode, ISet<INode>> { }
+
+    // TODO MapFactory
 }
