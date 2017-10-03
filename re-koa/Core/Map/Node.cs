@@ -1,5 +1,4 @@
 ﻿using ReKoA.Core.Attribute;
-using System.Collections.Generic;
 
 namespace ReKoA.Core.Map
 {
@@ -47,4 +46,15 @@ namespace ReKoA.Core.Map
     public class NodeAttributeRed : Red, INodeAttribute { }
     public class NodeAttributeGreen : Green, INodeAttribute { }
     public class NodeAttributeWhite : IYellow, IBlue, IRed, IGreen, INodeAttribute { public bool sameAs(IAttribute attr) => true; }
+    public class NodeAttributeShrine : IYellow, IBlue, IRed, IGreen, INodeAttribute { public bool sameAs(IAttribute attr) => true; }
+
+    public class NodeGenerator // kari
+    {
+        public static INode GenerateNode(int id, INodeAttribute attr)
+        {
+            return new Node(id, attr);
+        }
+    }
+
+
 }
