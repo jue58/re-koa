@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "re-koa", "re-koa\re-koa.csproj", "{A22D6338-110E-4E18-9BCB-D57E938ED840}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "re-koa-test", "re-koa-test\re-koa-test.csproj", "{D760BC1E-6BD8-4156-B916-4870A51EA571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "re-koa-test", "re-koa-test\re-koa-test.csproj", "{D760BC1E-6BD8-4156-B916-4870A51EA571}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp.csproj", "{C0978611-4A16-401A-AFB6-4ABF1CA7265A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D760BC1E-6BD8-4156-B916-4870A51EA571}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D760BC1E-6BD8-4156-B916-4870A51EA571}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D760BC1E-6BD8-4156-B916-4870A51EA571}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0978611-4A16-401A-AFB6-4ABF1CA7265A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0978611-4A16-401A-AFB6-4ABF1CA7265A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0978611-4A16-401A-AFB6-4ABF1CA7265A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0978611-4A16-401A-AFB6-4ABF1CA7265A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

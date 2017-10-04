@@ -4,14 +4,25 @@ namespace ReKoA.Core.Map
 {
     public class Map
     {
-        public IReadOnlyDictionary<INode, ISet<INode>> Paths { get; private set; }
+        public INodeSet Nodes { get; private set; }
 
-        public Map(IReadOnlyDictionary<INode, ISet<INode>> paths)
+        public IPathDictionary Paths { get; private set; }
+
+        public Map(INodeSet nodes, IPathDictionary paths)
         {
+            Nodes = nodes;
             Paths = paths;
         }
     }
 
-    // TODO MapFactory
+    public interface INodeSet : ISet<INode> { }
 
+    public class NodeSet : SortedSet<INode>, INodeSet { }
+
+    public interface IPathDictionary : IReadOnlyDictionary<INode, INodeSet> { }
+
+    // 名前がいまいち
+    public class PathDictionary : SortedDictionary<INode, INodeSet>, IPathDictionary { }
+
+    // TODO MapFactory
 }

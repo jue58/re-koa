@@ -40,21 +40,8 @@ namespace ReKoA.Core.Map
         }
     }
 
-    public interface INodeAttribute : IAttribute { }
-    public class NodeAttributeYellow : Yellow, INodeAttribute { }
-    public class NodeAttributeBlue : Blue, INodeAttribute { }
-    public class NodeAttributeRed : Red, INodeAttribute { }
-    public class NodeAttributeGreen : Green, INodeAttribute { }
-    public class NodeAttributeWhite : IYellow, IBlue, IRed, IGreen, INodeAttribute { public bool sameAs(IAttribute attr) => true; }
-    public class NodeAttributeShrine : IYellow, IBlue, IRed, IGreen, INodeAttribute { public bool sameAs(IAttribute attr) => true; }
-
-    public class NodeGenerator // kari
+    public class NodeGenerator
     {
-        public static INode GenerateNode(int id, INodeAttribute attr)
-        {
-            return new Node(id, attr);
-        }
+        public static INode GenerateNode(int id, INodeAttribute attr) => new Node(id, attr);
     }
-
-
 }
