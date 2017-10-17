@@ -4,7 +4,7 @@ namespace ReKoA.Core.Map
 {
     public interface INodeAttribute : IAttribute { }
 
-    public sealed class NodeAttributeYellow : Yellow, INodeAttribute
+    public class NodeAttributeYellow : Yellow, INodeAttribute
     {
         private static NodeAttributeYellow instance = new NodeAttributeYellow();
 
@@ -13,7 +13,7 @@ namespace ReKoA.Core.Map
         private NodeAttributeYellow() { }
     }
 
-    public sealed class NodeAttributeBlue : Blue, INodeAttribute
+    public class NodeAttributeBlue : Blue, INodeAttribute
     {
         private static NodeAttributeBlue instance = new NodeAttributeBlue();
 
@@ -22,7 +22,7 @@ namespace ReKoA.Core.Map
         private NodeAttributeBlue() { }
     }
 
-    public sealed class NodeAttributeRed : Red, INodeAttribute
+    public class NodeAttributeRed : Red, INodeAttribute
     {
         private static NodeAttributeRed instance = new NodeAttributeRed();
 
@@ -40,25 +40,21 @@ namespace ReKoA.Core.Map
         private NodeAttributeGreen() { }
     }
 
-    public class NodeAttributeWhite : IYellow, IBlue, IRed, IGreen, INodeAttribute
+    public class NodeAttributeWhite : White, INodeAttribute
     {
         private static NodeAttributeWhite instance = new NodeAttributeWhite();
 
         public static NodeAttributeWhite GetInstance() => instance;
 
         private NodeAttributeWhite() { }
-
-        public bool sameAs(IAttribute attr) => true;
     }
 
-    public class NodeAttributeShrine : IYellow, IBlue, IRed, IGreen, INodeAttribute
+    public class NodeAttributeShrine : Shrine, INodeAttribute
     {
         private static NodeAttributeShrine instance = new NodeAttributeShrine();
 
         public static NodeAttributeShrine GetInstance() => instance;
 
         private NodeAttributeShrine() { }
-
-        public bool sameAs(IAttribute attr) => true;
     }
 }

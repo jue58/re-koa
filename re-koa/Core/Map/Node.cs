@@ -9,6 +9,8 @@ namespace ReKoA.Core.Map
         INodeAttribute Attribute { get; }
 
         bool Equals(object obj);
+
+        int GetHashCode();
     }
 
     internal class Node : INode
