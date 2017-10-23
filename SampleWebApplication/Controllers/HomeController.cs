@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SampleWebApplication.KoA.Map;
+using ReKoA.Core.Map;
 
 namespace SampleWebApplication.Controllers
 {
@@ -10,6 +12,8 @@ namespace SampleWebApplication.Controllers
     {
         public IActionResult Index()
         {
+            var map = MapGenerator.GetMap();
+            // 次回：mapをテンプレート上でjsのオブジェクトに変換する
             return View();
         }
 
@@ -20,33 +24,32 @@ namespace SampleWebApplication.Controllers
         }
     }
 
-/*
-public class MapGenerator
-{
-    public static Map GenerateMap()
-    {
-        var red = NodeAttributeRed.GetInstance();
-        var shrine = NodeAttributeShrine.GetInstance();
-        var mapData = new List<(int, INodeAttribute, ISet<int>)>() {
-                (1, red, new SortedSet<int>() { 2, 3 }),
-                (2, red, new SortedSet<int>() { 1, 4 }),
-                (3, red, new SortedSet<int>() { 1, 4, 5 }),
-                (4, red, new SortedSet<int>() { 2, 3, 6 }),
-                (5, red, new SortedSet<int>() { 3, 6 }),
-                (6, shrine, new SortedSet<int>() { 4, 5 })
-            };
-        var intermediate = mapData.Select(p => (NodeGenerator.GenerateNode(p.Item1, p.Item2), p.Item3));
-        var nodes = intermediate.Aggregate(new Dictionary<int, INode>(), (n, i) => { n.Add(i.Item1.ID, i.Item1); return n; });
 
-        return null;
-                    return new Map(nodes, intermediate.Aggregate(new SortedDictionary<INode, ISet<INode>>(), (p, i) =>
-                        {
-                            p.Add(i.Item1, i.Item2.Aggregate(new SortedSet<INode>(), (n, id) => { n.Add(nodes[id]); return n; }));
-                            return p;
-                        }
-                    ));
-                    
+    public class MapGenerator
+    {
+        public static Map GetMap()
+        {
+            var red = NodeObjAttributeRed.GetInstance();
+            var shrine = NodeObjAttributeShrine.GetInstance();
+            var mapData = new List<(int, INodeObjAttribute, ISet<int>, int, int)>() {
+                    (1, red, new SortedSet<int>() { 2, 3 }, 10, 10),
+                    (2, red, new SortedSet<int>() { 1, 4 }, 10, 20),
+                    (3, red, new SortedSet<int>() { 1, 4, 5 }, 10, 30),
+                    (4, red, new SortedSet<int>() { 2, 3, 6 }, 10, 40),
+                    (5, red, new SortedSet<int>() { 3, 6 }, 10, 50),
+                    (6, shrine, new SortedSet<int>() { 4, 5 }, 10, 60)
+                };
+            var generator = NodeGenerator.GetInstance();
+            var intermediate = mapData.Select(p => (generator.generateNode(p.Item1, p.Item2, p.Item4, p.Item5), p.Item3));
+            var nodes = new NodeObjSet(intermediate.Select(n => n.Item1));
+
+            return new Map(nodes, intermediate.Aggregate(new PathDictionary(), (p, i) =>
+                {
+                    p.Add(i.Item1, new NodeSet(i.Item2.Select(id => nodes.First(n => n.ID == id))));
+                    return p;
+                }
+            ));
+        }
     }
-}
-*/
+
 }

@@ -10,19 +10,6 @@ namespace ReKoA.Core.Map
         IPathDictionary Paths { get; }
     }
 
-    public class Map
-    {
-        public INodeSet Nodes { get; private set; }
-
-        public IPathDictionary Paths { get; private set; }
-
-        public Map(INodeSet nodes, IPathDictionary paths)
-        {
-            Nodes = nodes;
-            Paths = paths;
-        }
-    }
-
     public interface INodeSet : ISet<INode> { ISet<int> ids(); }
 
     public class NodeSet : SortedSet<INode>, INodeSet

@@ -1,5 +1,6 @@
 ﻿using ReKoA.Core.Map;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace SampleWebApplication.KoA.Map
@@ -20,27 +21,48 @@ namespace SampleWebApplication.KoA.Map
         }
     }
 
+    public class NodeGenerator : NodeGeneratorBase
+    {
+        private static NodeGenerator instance = new NodeGenerator();
+
+        public static NodeGenerator GetInstance() => instance;
+
+        private NodeGenerator() { }
+
+        public INodeObj generateNode(int id, INodeObjAttribute attr, int x, int y) => new NodeObj(id, attr, x, y);
+    }
+
     public interface INodeObjSet : ISet<INodeObj> { INodeSet getNodes(); }
 
-    public class NodeObjSet : SortedSet<INodeObj>, INodeObjSet { public INodeSet getNodes() => new NodeSet(this); }
+    public class NodeObjSet : SortedSet<INodeObj>, INodeObjSet
+    {
+        public NodeObjSet(IEnumerable<INodeObj> collection) : base(collection) { }
+
+        public INodeSet getNodes() => new NodeSet(this);
+    }
 
     public interface INodeObj : INode
     {
         INodeObjAttribute ObjAttribute { get; }
+
+        Point Point { get; }
     }
 
-    public class NodeObj
+    public class NodeObj : INodeObj
     {
         public int ID { get; private set; }
 
-        private INodeAttribute Attribute { get { return ObjAttribute; } }
+        public INodeAttribute Attribute { get { return ObjAttribute; } }
 
         public INodeObjAttribute ObjAttribute { get; private set; }
 
-        public NodeObj(int id, INodeObjAttribute objAttribute)
+        public Point Point { get; private set; }
+
+        public NodeObj(int id, INodeObjAttribute objAttribute, int x, int y)
         {
             ID = id;
             ObjAttribute = objAttribute;
+            Point = new Point(x, y);
         }
     }
 

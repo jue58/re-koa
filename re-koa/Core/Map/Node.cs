@@ -42,8 +42,9 @@ namespace ReKoA.Core.Map
         }
     }
 
-    public class NodeGenerator
+    public abstract class NodeGeneratorBase
     {
-        public static INode GenerateNode(int id, INodeAttribute attr) => new Node(id, attr);
+        protected INode generateNode(int id, INodeAttribute attr) => new Node(id, attr);
     }
+
 }
