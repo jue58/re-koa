@@ -10,6 +10,7 @@ namespace ReKoA.Core.Map
         IPathDictionary Paths { get; }
     }
 
+    // TODO INodeSetはISetを継承せずに使われそうなメソッドを定義するだけにする？
     public interface INodeSet : ISet<INode> { ISet<int> ids(); }
 
     public class NodeSet : SortedSet<INode>, INodeSet
@@ -22,8 +23,11 @@ namespace ReKoA.Core.Map
 
     public interface IPathDictionary : IReadOnlyDictionary<INode, INodeSet> { }
 
-    // 名前がいまいち
-    public class PathDictionary : SortedDictionary<INode, INodeSet>, IPathDictionary { }
+    // TODO 名前がいまいち
+    public class PathDictionary : SortedDictionary<INode, INodeSet>, IPathDictionary
+    {
+        public PathDictionary(IDictionary<INode, INodeSet> dictionary) : base(dictionary) { }
+    }
 
     // TODO MapFactory
 }

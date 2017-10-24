@@ -42,13 +42,18 @@ namespace SampleWebApplication.Controllers
             var generator = NodeGenerator.GetInstance();
             var intermediate = mapData.Select(p => (generator.generateNode(p.Item1, p.Item2, p.Item4, p.Item5), p.Item3));
             var nodes = new NodeObjSet(intermediate.Select(n => n.Item1));
+            var paths = new ObjPathDictionary(
+                new Dictionary<INodeObj, INodeObjSet>(
+                    intermediate.Select(i => {
+                        return new KeyValuePair<INodeObj, INodeObjSet>(
+                            i.Item1,
+                            new NodeObjSet(i.Item2.Select(id => nodes.First(n => n.ID == id)))
+                        );
+                    })
+                )
+            );
 
-            return new Map(nodes, intermediate.Aggregate(new PathDictionary(), (p, i) =>
-                {
-                    p.Add(i.Item1, new NodeSet(i.Item2.Select(id => nodes.First(n => n.ID == id))));
-                    return p;
-                }
-            ));
+            return new Map(nodes, paths);
         }
     }
 

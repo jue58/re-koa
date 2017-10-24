@@ -13,9 +13,10 @@ namespace ReKoA.Core.Map
         int GetHashCode();
     }
 
-    internal class Node : INode
+    // TODO publicのままでいくなら、テストの修正が必要
+    public class Node : INode
     {
-        public int ID { get; private set; }
+        public int ID { get; protected set; }
 
         public INodeAttribute Attribute { get; private set; }
 

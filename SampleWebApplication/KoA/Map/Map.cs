@@ -5,6 +5,8 @@ using System.Linq;
 
 namespace SampleWebApplication.KoA.Map
 {
+    // HACK NodeSetなくして、PathDictionaryだけでどうにかなりそうな気がする
+    // partialでidsとか実装できないかな？
     public class Map : IMap
     {
         public INodeSet Nodes { get; private set; }
@@ -13,11 +15,14 @@ namespace SampleWebApplication.KoA.Map
 
         public IPathDictionary Paths { get; private set; }
 
-        public Map(INodeObjSet nodeObjs, IPathDictionary paths)
+        public IObjPathDictionary ObjPaths { get; private set; }
+
+        public Map(INodeObjSet nodeObjs, IObjPathDictionary paths)
         {
             NodeObjs = nodeObjs;
             Nodes = NodeObjs.getNodes();
-            Paths = paths;
+            ObjPaths = paths;
+            Paths = ObjPaths.getPathDictionary();
         }
     }
 
@@ -32,13 +37,35 @@ namespace SampleWebApplication.KoA.Map
         public INodeObj generateNode(int id, INodeObjAttribute attr, int x, int y) => new NodeObj(id, attr, x, y);
     }
 
-    public interface INodeObjSet : ISet<INodeObj> { INodeSet getNodes(); }
+    public interface INodeObjSet : ISet<INodeObj>
+    {
+        INodeSet getNodes();
+
+        ISet<int> ids();
+    }
 
     public class NodeObjSet : SortedSet<INodeObj>, INodeObjSet
     {
-        public NodeObjSet(IEnumerable<INodeObj> collection) : base(collection) { }
+        private INodeSet NodeSet { get; set; }
 
-        public INodeSet getNodes() => new NodeSet(this);
+        public NodeObjSet(IEnumerable<INodeObj> collection) : base(collection)
+        {
+            NodeSet = new NodeSet(collection);
+        }
+
+        public INodeSet getNodes() => NodeSet;
+
+        public ISet<int> ids() => NodeSet.ids();
+    }
+
+
+    public interface IObjPathDictionary : IReadOnlyDictionary<INodeObj, INodeObjSet> { IPathDictionary getPathDictionary(); }
+
+    public class ObjPathDictionary : SortedDictionary<INodeObj, INodeObjSet>, IObjPathDictionary
+    {
+        public ObjPathDictionary(IDictionary<INodeObj, INodeObjSet> dictionary) : base(dictionary) { }
+
+        public IPathDictionary getPathDictionary() => new PathDictionary(((IDictionary<INode, INodeSet>)this));
     }
 
     public interface INodeObj : INode
@@ -48,19 +75,14 @@ namespace SampleWebApplication.KoA.Map
         Point Point { get; }
     }
 
-    public class NodeObj : INodeObj
+    public class NodeObj : Node, INodeObj
     {
-        public int ID { get; private set; }
-
-        public INodeAttribute Attribute { get { return ObjAttribute; } }
-
         public INodeObjAttribute ObjAttribute { get; private set; }
 
         public Point Point { get; private set; }
 
-        public NodeObj(int id, INodeObjAttribute objAttribute, int x, int y)
+        public NodeObj(int id, INodeObjAttribute objAttribute, int x, int y) : base(id, objAttribute)
         {
-            ID = id;
             ObjAttribute = objAttribute;
             Point = new Point(x, y);
         }
